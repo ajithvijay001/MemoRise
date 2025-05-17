@@ -1,0 +1,19 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://ajith:Mongodblogin01!@flashcardsdev.gtywryj.mongodb.net/?retryWrites=true&w=majority&appName=FlashCardsDev
+      database: MemoRise
+  security:
+    user:
+      name: ajith
+      password: 1234
+logging:
+  level:
+   org:
+    springframework:
+      data:
+       mongodb:
+         core:
+           MongoTemplate: DEBUG
+server:
+   port: 9080
