@@ -1,6 +1,5 @@
 package com.project.memorise.service;
 
-import java.util.Collection;
 import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +21,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Users user = userRepo.findUserByUserName(username)
+		Users user = userRepo.findByUserName(username)
 				.orElseThrow( ()-> new UsernameNotFoundException("User Not Found!"));
 		return new User(user.getUserName(), user.getPassword(), 
 				Collections.singleton(new SimpleGrantedAuthority(user.getRole())));
-		
-//		return new User("ajith", "1234", Collections.singleton(new SimpleGrantedAuthority("User")));
 	}
 
 }

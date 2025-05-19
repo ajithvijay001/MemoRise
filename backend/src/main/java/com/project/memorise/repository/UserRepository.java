@@ -10,6 +10,6 @@ import com.project.memorise.model.Users;
 @Repository
 public interface UserRepository extends MongoRepository<Users, Integer>{
 
-	Optional<Users> findUserByUserName(String username);
+	Optional<Users> findByUserName(String userName);
 
 }

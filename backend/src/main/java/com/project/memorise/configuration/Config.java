@@ -26,10 +26,9 @@ public class Config {
 		
 		return httpSecurity.csrf(customizer -> customizer.disable())
 		.authorizeHttpRequests(request -> request.anyRequest().authenticated())
-//		.userDetailsService(user -> );
 //		.formLogin(form -> form.permitAll())
 		.httpBasic(Customizer.withDefaults()) //to enable REST access via postman or any other UI tools to request RESTAPI
-//		.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //to avoid csrf as new JSESSIONID will be created newly every time a request is made and it won't allow to login with form login as it will create new session and it will be in loop by request and response for the new sessions. To make it work from the form need to comment formLogin() configuration;
+		.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //to avoid csrf as new JSESSIONID will be created newly every time a request is made and it won't allow to login with form login as it will create new session and it will be in loop by request and response for the new sessions. To make it work from the form need to comment formLogin() configuration;
 		.build();
 	}
 	

@@ -15,18 +15,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 
-@Document(collection="Users")
-public class Users {
-	
-	@Id
-	int id;
-	
-	String userName;
-	
-	String password;
-	
-	String emailId;
-	
-	String role;
+@Document(collection = "customSequences")
+public class CustomSequences {
 
+	 @Id
+	 private String id;
+	 private long seq;
 }
