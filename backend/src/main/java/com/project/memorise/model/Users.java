@@ -26,5 +26,7 @@ public class Users {
 	String password;
 	
 	String emailId;
+	
+	String role;
 
 }

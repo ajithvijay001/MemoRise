@@ -1,6 +1,7 @@
 package com.project.memorise.service.implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.project.memorise.model.Users;
@@ -15,6 +16,7 @@ public class UserServiceImplementation implements UserService {
 	
 	@Override
 	public String addUsers(Users user) {
+		user.setPassword(new BCryptPasswordEncoder(12).encode(user.getPassword()));
 		userRepo.save(user);
 		return "New User Created";
 	}

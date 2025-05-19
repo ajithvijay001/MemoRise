@@ -2,6 +2,7 @@ package com.project.memorise.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,6 +13,7 @@ import com.project.memorise.model.Users;
 import com.project.memorise.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
+import static org.springframework.http.ResponseEntity.ok;
 
 @RestController
 @RequestMapping("/api/")
@@ -26,9 +28,9 @@ public class UserController {
 		return "Test Successful " + http.getSession().getId();
 	}
 	
-	@PostMapping("/add-user")
-	public String addNewUser(@RequestBody Users user) {
+	@PostMapping("/new-user")
+	public ResponseEntity<String> addNewUser(@RequestBody Users user) {
 		
-		return userService.addUsers(user);
+		return ok(userService.addUsers(user));
 	}
 }
