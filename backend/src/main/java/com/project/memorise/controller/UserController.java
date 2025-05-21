@@ -28,7 +28,7 @@ public class UserController {
 		return "Test Successful " + http.getSession().getId();
 	}
 	
-	@PostMapping("/new-user")
+	@PostMapping("/sign-up")
 	public ResponseEntity<String> addNewUser(@RequestBody Users user) {
 		
 		return ok(userService.addUsers(user));

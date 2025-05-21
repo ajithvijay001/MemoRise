@@ -1,9 +1,14 @@
 package com.project.memorise.configuration;
 
+import java.util.List;
+
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configurers.userdetails.DaoAuthenticationConfigurer;
@@ -25,7 +30,9 @@ public class Config {
 	public SecurityFilterChain securityFilterchain(HttpSecurity httpSecurity) throws Exception {
 		
 		return httpSecurity.csrf(customizer -> customizer.disable())
-		.authorizeHttpRequests(request -> request.anyRequest().authenticated())
+		.authorizeHttpRequests(request -> request
+				.requestMatchers("/login").permitAll()
+				.anyRequest().authenticated())
 //		.formLogin(form -> form.permitAll())
 		.httpBasic(Customizer.withDefaults()) //to enable REST access via postman or any other UI tools to request RESTAPI
 		.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //to avoid csrf as new JSESSIONID will be created newly every time a request is made and it won't allow to login with form login as it will create new session and it will be in loop by request and response for the new sessions. To make it work from the form need to comment formLogin() configuration;
@@ -43,5 +50,10 @@ public class Config {
 	@Bean
 	public UserDetailsService userDetailsService() {
 		return new CustomUserDetailsService();
+	}
+	
+	@Bean
+	public AuthenticationManager authenticationManager() {
+		return new ProviderManager(List.of(authProvider()));
 	}
 }
