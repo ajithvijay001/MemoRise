@@ -24,7 +24,7 @@ public class UserServiceImplementation implements UserService {
 		 user.setId(sequenceGeneratorService.getNextSequence("users_seq"));
 		user.setPassword(new BCryptPasswordEncoder(12).encode(user.getPassword()));
 		userRepo.save(user);
-		return "New User Created";
+		return "New User Created Successfully";
 	}
 
 }

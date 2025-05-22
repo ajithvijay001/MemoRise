@@ -2,6 +2,8 @@ package com.project.memorise.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,10 +15,10 @@ import com.project.memorise.model.Users;
 import com.project.memorise.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
-import static org.springframework.http.ResponseEntity.ok;
+import static org.springframework.http.ResponseEntity.accepted;
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/")
 public class UserController {
 	
 	@Autowired
@@ -28,9 +30,9 @@ public class UserController {
 		return "Test Successful " + http.getSession().getId();
 	}
 	
-	@PostMapping("/sign-up")
+	@PostMapping("sign-up/")
 	public ResponseEntity<String> addNewUser(@RequestBody Users user) {
 		
-		return ok(userService.addUsers(user));
+		return ResponseEntity.status(HttpStatus.CREATED).body(userService.addUsers(user)); 
 	}
 }
