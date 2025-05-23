@@ -19,7 +19,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.project.memorise.security.JwtAuthenticationFilter;
 import com.project.memorise.service.CustomUserDetailsService;
 
 @Configuration
@@ -27,15 +29,20 @@ import com.project.memorise.service.CustomUserDetailsService;
 public class Config {
 	
 	@Bean
+	public JwtAuthenticationFilter jwtAuthFilter() {
+		return new JwtAuthenticationFilter();
+	}
+	@Bean
 	public SecurityFilterChain securityFilterchain(HttpSecurity httpSecurity) throws Exception {
 		
 		return httpSecurity.csrf(customizer -> customizer.disable())
 		.authorizeHttpRequests(request -> request
-				.requestMatchers("/login").permitAll()
+				.requestMatchers("/auth/login","/sign-up/").permitAll()
 				.anyRequest().authenticated())
-//		.formLogin(form -> form.permitAll())
+//		.formLogin(form -> form.permitAll()) //commented to avoid the response in postman or any other UI tool as HTML
 		.httpBasic(Customizer.withDefaults()) //to enable REST access via postman or any other UI tools to request RESTAPI
 		.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //to avoid csrf as new JSESSIONID will be created newly every time a request is made and it won't allow to login with form login as it will create new session and it will be in loop by request and response for the new sessions. To make it work from the form need to comment formLogin() configuration;
+		.addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class)
 		.build();
 	}
 	
