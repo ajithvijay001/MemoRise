@@ -4,15 +4,18 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.memorise.model.FlashCards;
-import com.project.memorise.repository.FlashCardRepository;
+import com.project.memorise.service.FlashCardService;
 
 import static org.springframework.http.ResponseEntity.ok;
 
@@ -22,19 +25,31 @@ import static org.springframework.http.ResponseEntity.ok;
 public class FlashCardController {
 
 	@Autowired
-	FlashCardRepository flashCardRepo;
+	FlashCardService flashCardSerive;
 	
 	@GetMapping("/deck/{deckId}/flashCards")
-	public List<FlashCards> getFlashCards(@PathVariable String deckId){
-		List<FlashCards> response = flashCardRepo.findByDeckId(deckId);// getByDeckId(deckId);
-		System.out.println("Response= "+ response.get(0));
-		return response;
+	public ResponseEntity<List<FlashCards>> getFlashCards(@PathVariable String deckId){
+		return ok(flashCardSerive.findFlashCardByDeckId(deckId));
 	}
 	
-	@PostMapping("/addFlashCards")
+	@GetMapping("/deck/{deckId}/flashCards/{id}")
+	public ResponseEntity<FlashCards> getFlashCardById(@PathVariable String deckId, @PathVariable String id){
+		return ok(flashCardSerive.fetchFlashCardById(deckId, id));
+	}
+	@PostMapping("/create-card")
 	public ResponseEntity<FlashCards> addFlashCards(@RequestBody FlashCards flashCards)
 	{
-		return ok(flashCardRepo.save(flashCards));
+		return ok(flashCardSerive.addFlashCard(flashCards));
+	}
+	
+	@PutMapping("/edit-card")
+	public ResponseEntity<FlashCards> editFlashCard(@RequestBody FlashCards flashCards){
+		return ok(flashCardSerive.editFlashCard(flashCards));
+	}
+	
+	@DeleteMapping("/delete-card")
+	public ResponseEntity<String> deleteFlashCard(@PathVariable String id){
+		return ok(flashCardSerive.deleteCard(id));
 	}
 
 }

@@ -18,19 +18,18 @@ import jakarta.servlet.http.HttpServletRequest;
 import static org.springframework.http.ResponseEntity.accepted;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/auth")
 public class UserController {
 	
 	@Autowired
 	UserService userService;
 	
-	@GetMapping("/")
-	public String userPage(HttpServletRequest http) {
-		System.out.println("Hi there" + http.getSession().getId());
-		return "Test Successful " + http.getSession().getId();
-	}
+//	@GetMapping("/")
+//	public String userPage(HttpServletRequest http) {
+//		return "Test Successful ";
+//	}
 	
-	@PostMapping("sign-up/")
+	@PostMapping("/register")
 	public ResponseEntity<String> addNewUser(@RequestBody Users user) {
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(userService.addUsers(user)); 
