@@ -21,6 +21,10 @@ public class Decks {
 	@Id
 	private String id;
 	
+	private int deckId;
+	
 	private String deckName;
+	
+	private int userId;
 	
 }

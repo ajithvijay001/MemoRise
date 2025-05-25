@@ -1,6 +1,9 @@
 package com.project.memorise.model;
 
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
@@ -19,14 +22,19 @@ import lombok.ToString;
 public class Users {
 	
 	@Id
-	int id;
+	private String id; 
 	
-	String userName;
+	@Indexed(unique = true)
+	private int userId;
 	
-	String password;
+	private String userName;
 	
-	String emailId;
+	private String password;
 	
-	String role;
+	private String emailId;
+	
+	private String role;
+	
+	private List<Decks> decks;
 
 }

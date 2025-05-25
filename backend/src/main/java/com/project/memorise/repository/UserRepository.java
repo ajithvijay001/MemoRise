@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.project.memorise.model.Users;
 
 @Repository
-public interface UserRepository extends MongoRepository<Users, Integer>{
+public interface UserRepository extends MongoRepository<Users, String>{
 
 	Optional<Users> findByUserName(String userName);
 

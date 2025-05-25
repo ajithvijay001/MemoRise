@@ -21,7 +21,7 @@ public class UserServiceImplementation implements UserService {
 	
 	@Override
 	public String addUsers(Users user) {
-		 user.setId(sequenceGeneratorService.getNextSequence("users_seq"));
+		 user.setUserId(sequenceGeneratorService.getNextSequence("users_seq"));
 		user.setPassword(new BCryptPasswordEncoder(12).encode(user.getPassword()));
 		userRepo.save(user);
 		return "New User Created Successfully";

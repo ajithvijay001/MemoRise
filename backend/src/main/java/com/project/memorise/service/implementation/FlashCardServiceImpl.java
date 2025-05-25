@@ -8,12 +8,16 @@ import org.springframework.stereotype.Service;
 import com.project.memorise.model.FlashCards;
 import com.project.memorise.repository.FlashCardRepository;
 import com.project.memorise.service.FlashCardService;
+import com.project.memorise.service.SequenceGeneratorService;
 
 @Service
 public class FlashCardServiceImpl implements FlashCardService {
 	
 	@Autowired
 	FlashCardRepository flashCardRepo;
+	
+	@Autowired
+    private SequenceGeneratorService sequenceGeneratorService;
 
 	@Override
 	public List<FlashCards> findFlashCardByDeckId(String deckId) {
@@ -23,6 +27,7 @@ public class FlashCardServiceImpl implements FlashCardService {
 
 	@Override
 	public FlashCards addFlashCard(FlashCards flashCards) {
+		flashCards.setCardId(sequenceGeneratorService.getNextSequence("card_seq"));
 		return flashCardRepo.save(flashCards);
 	}
 
