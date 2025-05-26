@@ -37,7 +37,7 @@ public class Config {
 		
 		return httpSecurity.csrf(customizer -> customizer.disable())
 		.authorizeHttpRequests(request -> request
-				.requestMatchers("/auth/login","/sign-up/").permitAll()
+				.requestMatchers("/auth/login","/auth/register").permitAll()
 				.anyRequest().authenticated())
 //		.formLogin(form -> form.permitAll()) //commented to avoid the response in postman or any other UI tool as HTML
 		.httpBasic(Customizer.withDefaults()) //to enable REST access via postman or any other UI tools to request RESTAPI

@@ -13,4 +13,8 @@ import com.project.memorise.model.Decks;
 public interface DeckRepository extends MongoRepository<Decks, String>{
 
 	List<Decks> findByUserId(String userId);
+
+//	List<Decks> findAllByUserName(String username);
+
+	List<Decks> findAllByUserId(int userId);
 }

@@ -2,6 +2,8 @@ package com.project.memorise.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.memorise.model.Decks;
 import com.project.memorise.service.DecksService;
+
 
 import static org.springframework.http.ResponseEntity.ok;
 
@@ -26,9 +29,9 @@ public class DeckController {
 	@Autowired
 	DecksService deckService;
 	
-	@GetMapping("/fetch-decks")
-	public ResponseEntity<List<Decks>> fetchAllDecks(){
-		return ok(deckService.fetchAllDecks());
+	@GetMapping("/fetch-decks/{userId}")
+	public ResponseEntity<List<Decks>> fetchAllDecks(@PathVariable int userId){
+		return ok(deckService.fetchAllDecks(userId));
 	}
 	
 	@PostMapping("/create-deck")
@@ -46,4 +49,5 @@ public class DeckController {
 	{
 		return ok(deckService.deleteDeck(id));
 	}
+	
 }

@@ -1,9 +1,11 @@
 package com.project.memorise.service.implementation;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.project.memorise.model.Decks;
@@ -27,16 +29,15 @@ public class DecksServiceImpl implements DecksService{
     private SequenceGeneratorService sequenceGeneratorService;
 	
 	@Override
-	public List<Decks> fetchAllDecks() {
-		return deckRepo.findAll();
+	public List<Decks> fetchAllDecks(int userId) {
+		return deckRepo.findAllByUserId(userId);
 	}
 
 	@Override
 	public Decks createNewDeck(Decks deck) {
 		deck.setDeckId(sequenceGeneratorService.getNextSequence("deck_seq"));
-		Users user  = (Users)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//		userRepo.getUserIdByUserName(user.getUserName());
-		deck.setUserId(userRepo.findByUserName(user.getUserName()).get().getUserId());
+		UserDetails user = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		deck.setUserId(userRepo.findByUserName(user.getUsername()).get().getUserId());
 		return deckRepo.save(deck);
 	}
 
