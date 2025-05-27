@@ -11,5 +11,7 @@ import com.project.memorise.model.Users;
 public interface UserRepository extends MongoRepository<Users, String>{
 
 	Optional<Users> findByUserName(String userName);
+	
+	Users findByUserId(int userId);
 
 }

@@ -29,11 +29,6 @@ public class DeckController {
 	@Autowired
 	DecksService deckService;
 	
-	@GetMapping("/fetch-decks/{userId}")
-	public ResponseEntity<List<Decks>> fetchAllDecks(@PathVariable int userId){
-		return ok(deckService.fetchAllDecks(userId));
-	}
-	
 	@PostMapping("/create-deck")
 	public ResponseEntity<Decks> createNewDeck(@RequestBody Decks deck){
 		return ok(deckService.createNewDeck(deck));

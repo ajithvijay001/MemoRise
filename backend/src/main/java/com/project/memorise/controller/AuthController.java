@@ -18,16 +18,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.memorise.model.Users;
 import com.project.memorise.security.JwtUtil;
+import com.project.memorise.service.UserService;
 
 @RestController
 @RequestMapping("/auth")
-public class LoginController {
+public class AuthController {
 	
 	@Autowired
 	private AuthenticationManager authManager;
 
 	@Autowired
 	private JwtUtil jwtUtil;
+	
+	@Autowired
+	UserService userService;
 	
 	@PostMapping("/login")
 	public ResponseEntity<Map<String, String>> login(@RequestBody Users user) {
@@ -40,6 +44,11 @@ public class LoginController {
 		catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("Error: ", "Invalid Username or Password"));
 		}
+	}
+	
+	@PostMapping("/register")
+	public ResponseEntity<String> addNewUser(@RequestBody Users user) {
 		
+		return ResponseEntity.status(HttpStatus.CREATED).body(userService.addUsers(user)); 
 	}
 }

@@ -12,7 +12,7 @@ import com.project.memorise.model.Decks;
 @Repository
 public interface DeckRepository extends MongoRepository<Decks, String>{
 
-	List<Decks> findByUserId(String userId);
+	List<Decks> findByUserId(int userId);
 
 //	List<Decks> findAllByUserName(String username);
 
