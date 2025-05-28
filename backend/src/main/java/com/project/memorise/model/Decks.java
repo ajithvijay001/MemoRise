@@ -27,4 +27,6 @@ public class Decks {
 	
 	private int userId;
 	
+	private boolean isLiked = false;
+	
 }

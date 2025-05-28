@@ -17,4 +17,6 @@ public interface DeckRepository extends MongoRepository<Decks, String>{
 //	List<Decks> findAllByUserName(String username);
 
 	List<Decks> findAllByUserId(int userId);
+
+	Decks findByDeckId(int deckId);
 }

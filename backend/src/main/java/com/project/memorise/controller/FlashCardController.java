@@ -51,5 +51,16 @@ public class FlashCardController {
 	public ResponseEntity<String> deleteFlashCard(@PathVariable String id){
 		return ok(flashCardSerive.deleteCard(id));
 	}
+	
+	@PostMapping("/like")
+	public ResponseEntity<String> addCardToFav(@PathVariable int cardId){
+		return ok(flashCardSerive.addCardToFav(cardId));
+	}
+	
+//	@GetMapping("/search")
+//	public ResponseEntity<FlashCards> searchCards(@RequestParam String text){
+//		
+//		return ok(flashCardSerive.searchCards(text));
+//	}
 
 }

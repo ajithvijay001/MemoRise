@@ -51,4 +51,18 @@ public class FlashCardServiceImpl implements FlashCardService {
 		
 	}
 
+	@Override
+	public String addCardToFav(int cardId) {
+
+		FlashCards card = flashCardRepo.findByCardId(cardId);
+		card.setLiked(!card.isLiked());
+		return "Card added to Liked cards";
+	}
+
+//	@Override
+//	public FlashCards searchCards(String text) {
+//
+//		return flashCardRepo.findByFlashCardsText(text);
+//	}
+
 }

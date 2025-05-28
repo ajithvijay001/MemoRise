@@ -13,4 +13,6 @@ public interface DecksService {
 	Decks editDeck(Decks deck);
 
 	String deleteDeck(String id);
+
+	String addToFav(int deckId);
 }

@@ -16,4 +16,8 @@ public interface FlashCardService {
 	String deleteCard(String id);
 
 	FlashCards fetchFlashCardById(String deckId, String id);
+
+	String addCardToFav(int cardId);
+
+//	FlashCards searchCards(String text);
 }

@@ -55,4 +55,13 @@ public class DecksServiceImpl implements DecksService{
 		return "Deletion Success";
 	}
 
+	@Override
+	public String addToFav(int deckId) {
+		
+		Decks deck = deckRepo.findByDeckId(deckId);
+		deck.setLiked(!deck.isLiked());
+		deckRepo.save(deck);
+		return "Deck added to Liked Decks";
+	}
+
 }

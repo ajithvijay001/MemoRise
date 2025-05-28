@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.memorise.model.Decks;
+import com.project.memorise.repository.DeckRepository;
 import com.project.memorise.service.DecksService;
 
 
@@ -23,11 +24,12 @@ import java.util.List;
 
 @RestController
 
-@RequestMapping("/api")
+@RequestMapping("/api/deck")
 public class DeckController {
-	
+
 	@Autowired
 	DecksService deckService;
+    
 	
 	@PostMapping("/create-deck")
 	public ResponseEntity<Decks> createNewDeck(@RequestBody Decks deck){
@@ -43,6 +45,12 @@ public class DeckController {
 	public ResponseEntity<String> deleteDeck(@PathVariable String id)
 	{
 		return ok(deckService.deleteDeck(id));
+	}
+	
+	@PostMapping("/like")
+	public ResponseEntity<String> addDeckToFav(@PathVariable int deckId){
+		deckService.addToFav(deckId);
+		return ok("Added to fav");
 	}
 	
 }

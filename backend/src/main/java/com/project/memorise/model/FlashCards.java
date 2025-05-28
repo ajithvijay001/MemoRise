@@ -39,6 +39,8 @@ public class FlashCards {
 	private String hint;
 	
 	private List<String> meaning;
+	
+	private boolean isLiked=false;
 
 
 }
