@@ -57,10 +57,10 @@ public class FlashCardController {
 		return ok(flashCardSerive.addCardToFav(cardId));
 	}
 	
-//	@GetMapping("/search")
-//	public ResponseEntity<FlashCards> searchCards(@RequestParam String text){
-//		
-//		return ok(flashCardSerive.searchCards(text));
-//	}
+	@GetMapping("/search-cards")
+	public ResponseEntity<List<FlashCards>> searchCards(@RequestParam String text){
+		
+		return ok(flashCardSerive.searchCards(text));
+	}
 
 }

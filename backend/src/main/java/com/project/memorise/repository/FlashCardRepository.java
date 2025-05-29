@@ -16,7 +16,11 @@ public interface FlashCardRepository extends MongoRepository<FlashCards, String>
 
 	FlashCards findByCardId(int cardId);
 
-//	@Query("")
-//	FlashCards findByFlashCardsText(String text);
-
+	@Query("{ '$or': [ " +
+		       "{ 'frontPage': { $regex: ?0, $options: 'i' } }, " +
+		       "{ 'hint': { $regex: ?0, $options: 'i' } }, " +
+		       "{ 'meaning': { $regex: ?0, $options: 'i' } }, " +
+		       "{ 'onyomi': { $regex: ?0, $options: 'i' } }, " +
+		       "{ 'kunyomi': { $regex: ?0, $options: 'i' } } ] }")
+		List<FlashCards> searchCards(String text);
 }

@@ -19,5 +19,5 @@ public interface FlashCardService {
 
 	String addCardToFav(int cardId);
 
-//	FlashCards searchCards(String text);
+	List<FlashCards> searchCards(String text);
 }

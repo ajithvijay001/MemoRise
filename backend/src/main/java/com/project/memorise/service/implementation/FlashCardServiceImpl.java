@@ -59,10 +59,10 @@ public class FlashCardServiceImpl implements FlashCardService {
 		return "Card added to Liked cards";
 	}
 
-//	@Override
-//	public FlashCards searchCards(String text) {
-//
-//		return flashCardRepo.findByFlashCardsText(text);
-//	}
+	@Override
+	public List<FlashCards> searchCards(String text) {
+
+		return flashCardRepo.searchCards(text);
+	}
 
 }
