@@ -15,4 +15,6 @@ public interface DecksService {
 	String deleteDeck(String id);
 
 	String addToFav(int deckId);
+
+	List<Decks> searchDecks(String text);
 }

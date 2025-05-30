@@ -64,4 +64,9 @@ public class DecksServiceImpl implements DecksService{
 		return "Deck added to Liked Decks";
 	}
 
+	@Override
+	public List<Decks> searchDecks(String text) {
+		return deckRepo.searchDecks(text);
+	}
+
 }
