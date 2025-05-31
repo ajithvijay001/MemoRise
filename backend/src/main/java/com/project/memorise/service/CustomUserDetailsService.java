@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.memorise.model.Users;
 import com.project.memorise.repository.UserRepository;
+import com.project.memorise.security.CustomUserDetails;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -23,8 +24,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Users user = userRepo.findByUserName(username)
 				.orElseThrow( ()-> new UsernameNotFoundException("User Not Found!"));
-		return new User(user.getUserName(), user.getPassword(), 
+		return new CustomUserDetails(user.getUserId(), 
+				user.getUserName(), 
+				user.getPassword(), 
 				Collections.singleton(new SimpleGrantedAuthority(user.getRole())));
 	}
-
 }

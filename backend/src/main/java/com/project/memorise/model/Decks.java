@@ -1,6 +1,7 @@
 package com.project.memorise.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import lombok.AllArgsConstructor;
@@ -21,6 +22,7 @@ public class Decks {
 	@Id
 	private String id;
 	
+	@Indexed(unique = true)
 	private int deckId;
 	
 	private String deckName;

@@ -7,15 +7,15 @@ import com.project.memorise.model.FlashCards;
 
 public interface FlashCardService {
 	
-	List<FlashCards> findFlashCardByDeckId( String deckId);
+	List<FlashCards> findFlashCardByDeckId( int deckId);
 	
-	FlashCards addFlashCard(FlashCards flashCards);
+	FlashCards addFlashCard(int deckId, FlashCards flashCards);
 
-	FlashCards editFlashCard(FlashCards flashCards);
+	FlashCards editFlashCard(int deckId, FlashCards flashCards);
 
 	FlashCards deleteCard(int deckId, int id);
 
-	FlashCards fetchFlashCardById(String deckId, String id);
+	FlashCards fetchFlashCardByCardIdAndDeckId(int deckId, int cardId);
 
 	String addCardToLiked(int deckId, int cardId);
 

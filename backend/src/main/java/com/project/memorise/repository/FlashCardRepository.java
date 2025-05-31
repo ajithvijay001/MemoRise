@@ -11,19 +11,21 @@ import com.project.memorise.model.FlashCards;
 @Repository
 public interface FlashCardRepository extends MongoRepository<FlashCards, String> {
 
-	List<FlashCards> findByDeckId(String deckId);
+	List<FlashCards> findByDeckId(int deckId);
 	
-	 FlashCards findByIdAndDeckId(String id, String deckId);
+	 FlashCards findByCardIdAndDeckId(int cardId, int deckId);
 
 	Optional<FlashCards> findByDeckIdAndCardId(int deckId, int cardId);
 
-	@Query("{ '$or': [ " +
+	@Query("{ '$and': [ " +
+		       "{ 'userId': ?1 }, " +
+			"{ '$or': [ " +
 		       "{ 'frontPage': { $regex: ?0, $options: 'i' } }, " +
 		       "{ 'hint': { $regex: ?0, $options: 'i' } }, " +
 		       "{ 'meaning': { $regex: ?0, $options: 'i' } }, " +
 		       "{ 'onyomi': { $regex: ?0, $options: 'i' } }, " +
 		       "{ 'kunyomi': { $regex: ?0, $options: 'i' } } ] }")
-		List<FlashCards> searchCards(String text);
+		List<FlashCards> searchCards(String text, int userId);
 
 	boolean existsByCardId(int id);
 

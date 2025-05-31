@@ -28,38 +28,39 @@ public class FlashCardController {
 	FlashCardService flashCardSerive;
 	
 	@GetMapping("/deck/{deckId}/flashCards")
-	public ResponseEntity<List<FlashCards>> getFlashCards(@PathVariable String deckId){
+	public ResponseEntity<List<FlashCards>> getFlashCards(@PathVariable int deckId){
 		return ok(flashCardSerive.findFlashCardByDeckId(deckId));
 	}
 	
-	@GetMapping("/deck/{deckId}/flashCards/{id}")
-	public ResponseEntity<FlashCards> getFlashCardById(@PathVariable String deckId, @PathVariable String id){
-		return ok(flashCardSerive.fetchFlashCardById(deckId, id));
+	@GetMapping("/deck/{deckId}/flashCards/{cardId}")
+	public ResponseEntity<FlashCards> getFlashCardById(@PathVariable int deckId, @PathVariable int cardId){
+		return ok(flashCardSerive.fetchFlashCardByCardIdAndDeckId(cardId, deckId));
 	}
-	@PostMapping("/create-card")
-	public ResponseEntity<FlashCards> addFlashCards(@RequestBody FlashCards flashCards)
+	@PostMapping("/deck/{deckId}/flashcards")
+	public ResponseEntity<FlashCards> addFlashCards(@PathVariable int deckId, @RequestBody FlashCards flashCards)
 	{
-		return ok(flashCardSerive.addFlashCard(flashCards));
+		flashCards.setDeckId(deckId);
+		return ok(flashCardSerive.addFlashCard(deckId, flashCards));
 	}
 	
-	@PutMapping("/edit-card")
-	public ResponseEntity<FlashCards> editFlashCard(@RequestBody FlashCards flashCards){
-		return ok(flashCardSerive.editFlashCard(flashCards));
+	@PutMapping("/deck/{deckId}/flashcards")
+	public ResponseEntity<FlashCards> editFlashCard(@PathVariable int deckId, @RequestBody FlashCards flashCards){
+		flashCards.setDeckId(deckId);
+		return ok(flashCardSerive.editFlashCard(deckId,flashCards));
 	}
 	
-	@DeleteMapping("deck/{deckId}/delete-card/{cardId}")
+	@DeleteMapping("deck/{deckId}/flashcards/{cardId}")
 	public ResponseEntity<FlashCards> deleteFlashCard(@PathVariable int deckId, @PathVariable int cardId){
 		return ok(flashCardSerive.deleteCard(deckId, cardId));
 	}
 	
-	@GetMapping("/deck/{id}/like/{cardId}")
+	@PutMapping("/deck/{id}/like/{cardId}")
 	public ResponseEntity<String> addCardToLiked(@PathVariable int cardId, @PathVariable int id){
 		return ok(flashCardSerive.addCardToLiked(id, cardId));
 	}
 	
-	@GetMapping("/search-cards")
+	@GetMapping("/flashcards/search")
 	public ResponseEntity<List<FlashCards>> searchCards(@RequestParam String text){
-		
 		return ok(flashCardSerive.searchCards(text));
 	}
 

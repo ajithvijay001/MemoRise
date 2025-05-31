@@ -28,29 +28,33 @@ public class DeckController {
 	@Autowired
 	DecksService deckService;
     
+	@GetMapping("/my-decks")
+	public ResponseEntity<List<Decks>> getMyDecks(){
+		return ok(deckService.fetchAllDecks());
+	}
 	
-	@PostMapping("/create-deck")
+	@PostMapping("/create")
 	public ResponseEntity<Decks> createNewDeck(@RequestBody Decks deck){
 		return ok(deckService.createNewDeck(deck));
 	}
 	
-	@PutMapping("/edit-deck")
+	@PutMapping("/edit")
 	public ResponseEntity<Decks> editDeck(@RequestBody Decks deck){
 		return ok(deckService.editDeck(deck));
 	}
 	
-	@DeleteMapping("/delete-deck/{deckId}")
+	@DeleteMapping("/{deckId}")
 	public ResponseEntity<Decks> deleteDeck(@PathVariable int deckId)
 	{
 		return ok(deckService.deleteDeck(deckId));
 	}
 	
-	@GetMapping("/like/{deckId}")
+	@PutMapping("/{deckId}/like")
 	public ResponseEntity<String> addDeckToLiked(@PathVariable int deckId){
 		return ok(deckService.addDeckToLiked(deckId));
 	}
 	
-	@GetMapping("/search-decks")
+	@GetMapping("/search")
 	public ResponseEntity<List<Decks>> searchDecks(@RequestParam String text){
 		
 		return ok(deckService.searchDecks(text));

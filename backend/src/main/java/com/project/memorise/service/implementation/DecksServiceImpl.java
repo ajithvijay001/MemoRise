@@ -2,15 +2,16 @@ package com.project.memorise.service.implementation;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.project.memorise.model.Decks;
 import com.project.memorise.repository.DeckRepository;
 import com.project.memorise.repository.UserRepository;
+import com.project.memorise.security.CustomUserDetails;
 import com.project.memorise.service.DecksService;
 import com.project.memorise.service.SequenceGeneratorService;
 
@@ -27,45 +28,53 @@ public class DecksServiceImpl implements DecksService{
 	@Autowired
     private SequenceGeneratorService sequenceGeneratorService;
 	
+	private int getCurrentUserId() {
+		return ((CustomUserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUserId();
+	}
+	
 	@Override
-	public List<Decks> fetchAllDecks(int userId) {
-		return deckRepo.findAllByUserId(userId);
+	public List<Decks> fetchAllDecks() {
+		return deckRepo.findAllByUserId(getCurrentUserId());
 	}
 
 	@Override
 	public Decks createNewDeck(Decks deck) {
 		deck.setDeckId(sequenceGeneratorService.getNextSequence("deck_seq"));
-		UserDetails user = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		deck.setUserId(userRepo.findByUserName(user.getUsername()).get().getUserId());
+		deck.setUserId(getCurrentUserId());
 		return deckRepo.save(deck);
 	}
 
 	@Override
 	public Decks editDeck(Decks deck) {
-		return deckRepo.save(deck);
+		Decks existingDeck = deckRepo.findByUserIdAndDeckId(getCurrentUserId(), deck.getDeckId());
+		if(existingDeck != null) {
+			existingDeck.setDeckName(deck.getDeckName());
+			existingDeck.setLiked(deck.isLiked());
+			return deckRepo.save(existingDeck);
+		}
+		else throw new RuntimeException("Deck not found for the user");
 	}
 
 	@Override
 	public Decks deleteDeck(int deckId) {
-		Optional<Decks> optionalDeck = deckRepo.findByDeckId(deckId); 
-		if(!optionalDeck.isPresent()) {
-			//Handle exception here
-			return new Decks();
+		Decks deck= deckRepo.findByUserIdAndDeckId(getCurrentUserId(), deckId);
+		if(deck == null) {
+		//Handle custom exception here
+			throw new RuntimeException("Deck Not Found or does not belong to the user");
 		}
-		return deckRepo.deleteByDeckId(deckId);
-		
+		deckRepo.deleteByDeckId(deckId);
+		return deck;
 	}
 
 	@Override
 	public String addDeckToLiked(int deckId) {
-		
-		Optional<Decks> optionalCard = deckRepo.findByDeckId(deckId);
 
-	    if (optionalCard.isPresent()) {
-	    	Decks deck = optionalCard.get();
+		Decks deck= deckRepo.findByUserIdAndDeckId(getCurrentUserId(), deckId);
+		
+	    if (deck != null) {
 	        deck.setLiked(!deck.isLiked());
-	        deckRepo.save(deck); // Don't forget to save the change
-	        return deck.isLiked() ? "Card added to Liked cards" : "Card removed from Liked cards";
+	        deckRepo.save(deck);
+	        return deck.isLiked() ? "Deck added to Liked cards" : "Deck removed from Liked cards";
 	    } else {
 	        throw new RuntimeException("Deck not found for deckId: " + deckId );
 	    }
@@ -73,9 +82,7 @@ public class DecksServiceImpl implements DecksService{
 
 	@Override
 	public List<Decks> searchDecks(String text) {
-		UserDetails user = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		
-		return deckRepo.searchDecks(text, userRepo.findByUserName(user.getUsername()).get().getUserId());
+		return deckRepo.searchDecks(Pattern.quote(text.trim()), getCurrentUserId());
 	}
 
 }

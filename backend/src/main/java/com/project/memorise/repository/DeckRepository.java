@@ -31,4 +31,6 @@ public interface DeckRepository extends MongoRepository<Decks, String>{
 	List<Decks> searchDecks(String text, int userId);
 
 	Decks deleteByDeckId(int deckId);
+
+	Decks findByUserIdAndDeckId(int userId, int deckId);
 }

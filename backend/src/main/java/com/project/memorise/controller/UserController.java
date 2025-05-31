@@ -41,9 +41,4 @@ public class UserController {
 		return new UsersDetailsDto((Users)user.get());
 	}
 	
-	@GetMapping("users/decks/{userId}")
-	public ResponseEntity<List<Decks>> fetchAllDecks(@PathVariable int userId){
-		return ok(deckService.fetchAllDecks(userId));
-	}
-	
 }

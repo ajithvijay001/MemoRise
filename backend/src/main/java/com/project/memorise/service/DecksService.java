@@ -6,7 +6,7 @@ import com.project.memorise.model.Decks;
 
 public interface DecksService {
 
-	List<Decks> fetchAllDecks(int userId);
+	List<Decks> fetchAllDecks();
 	
 	Decks createNewDeck(Decks deck);
 
