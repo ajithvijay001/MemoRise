@@ -1,6 +1,7 @@
 package com.project.memorise.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
@@ -14,7 +15,7 @@ public interface FlashCardRepository extends MongoRepository<FlashCards, String>
 	
 	 FlashCards findByIdAndDeckId(String id, String deckId);
 
-	FlashCards findByCardId(int cardId);
+	Optional<FlashCards> findByDeckIdAndCardId(int deckId, int cardId);
 
 	@Query("{ '$or': [ " +
 		       "{ 'frontPage': { $regex: ?0, $options: 'i' } }, " +
@@ -23,4 +24,8 @@ public interface FlashCardRepository extends MongoRepository<FlashCards, String>
 		       "{ 'onyomi': { $regex: ?0, $options: 'i' } }, " +
 		       "{ 'kunyomi': { $regex: ?0, $options: 'i' } } ] }")
 		List<FlashCards> searchCards(String text);
+
+	boolean existsByCardId(int id);
+
+	FlashCards deleteByDeckIdAndCardId(int deckId, int cardId);
 }

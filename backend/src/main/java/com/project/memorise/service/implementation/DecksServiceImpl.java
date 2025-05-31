@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.project.memorise.model.Decks;
-import com.project.memorise.model.Users;
 import com.project.memorise.repository.DeckRepository;
 import com.project.memorise.repository.UserRepository;
 import com.project.memorise.service.DecksService;
@@ -47,26 +46,36 @@ public class DecksServiceImpl implements DecksService{
 	}
 
 	@Override
-	public String deleteDeck(String id) {
-		if(!deckRepo.existsById(id)) {
+	public Decks deleteDeck(int deckId) {
+		Optional<Decks> optionalDeck = deckRepo.findByDeckId(deckId); 
+		if(!optionalDeck.isPresent()) {
 			//Handle exception here
+			return new Decks();
 		}
-		deckRepo.deleteById(id);
-		return "Deletion Success";
+		return deckRepo.deleteByDeckId(deckId);
+		
 	}
 
 	@Override
-	public String addToFav(int deckId) {
+	public String addDeckToLiked(int deckId) {
 		
-		Decks deck = deckRepo.findByDeckId(deckId);
-		deck.setLiked(!deck.isLiked());
-		deckRepo.save(deck);
-		return "Deck added to Liked Decks";
+		Optional<Decks> optionalCard = deckRepo.findByDeckId(deckId);
+
+	    if (optionalCard.isPresent()) {
+	    	Decks deck = optionalCard.get();
+	        deck.setLiked(!deck.isLiked());
+	        deckRepo.save(deck); // Don't forget to save the change
+	        return deck.isLiked() ? "Card added to Liked cards" : "Card removed from Liked cards";
+	    } else {
+	        throw new RuntimeException("Deck not found for deckId: " + deckId );
+	    }
 	}
 
 	@Override
 	public List<Decks> searchDecks(String text) {
-		return deckRepo.searchDecks(text);
+		UserDetails user = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+		return deckRepo.searchDecks(text, userRepo.findByUserName(user.getUsername()).get().getUserId());
 	}
 
 }

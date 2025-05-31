@@ -32,7 +32,7 @@ public class FlashCards {
 	private List<String> kunyomi;
 	
 	@Field("deckId")
-	private String deckId;
+	private int deckId;
 	
 	private String frontPage;
 	
@@ -40,7 +40,7 @@ public class FlashCards {
 	
 	private List<String> meaning;
 	
-	private boolean isLiked=false;
+	private boolean liked=false;
 
 
 }

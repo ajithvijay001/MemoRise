@@ -2,6 +2,7 @@ package com.project.memorise.repository;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
@@ -19,9 +20,15 @@ public interface DeckRepository extends MongoRepository<Decks, String>{
 
 	List<Decks> findAllByUserId(int userId);
 
-	Decks findByDeckId(int deckId);
+	Optional<Decks> findByDeckId(int deckId);
 
-	@Query("{ '$or': [ " +		       
-		       "{ 'deckName': { $regex: ?0, $options: i } } ] }")
-	List<Decks> searchDecks(String text);
+	@Query("{ '$and': [ " +
+		       "{ 'userId': ?1 }, " +
+		       "{ '$or': [ " +
+		         "{ 'deckName': { $regex: ?0, $options: 'i' } } " +
+		       "] } " +
+		     "] }")
+	List<Decks> searchDecks(String text, int userId);
+
+	Decks deleteByDeckId(int deckId);
 }

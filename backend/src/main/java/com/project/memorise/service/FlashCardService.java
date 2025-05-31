@@ -13,11 +13,11 @@ public interface FlashCardService {
 
 	FlashCards editFlashCard(FlashCards flashCards);
 
-	String deleteCard(String id);
+	FlashCards deleteCard(int deckId, int id);
 
 	FlashCards fetchFlashCardById(String deckId, String id);
 
-	String addCardToFav(int cardId);
+	String addCardToLiked(int deckId, int cardId);
 
 	List<FlashCards> searchCards(String text);
 }

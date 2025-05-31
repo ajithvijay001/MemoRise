@@ -39,16 +39,15 @@ public class DeckController {
 		return ok(deckService.editDeck(deck));
 	}
 	
-	@DeleteMapping("/delete-deck")
-	public ResponseEntity<String> deleteDeck(@PathVariable String id)
+	@DeleteMapping("/delete-deck/{deckId}")
+	public ResponseEntity<Decks> deleteDeck(@PathVariable int deckId)
 	{
-		return ok(deckService.deleteDeck(id));
+		return ok(deckService.deleteDeck(deckId));
 	}
 	
-	@PostMapping("/like")
-	public ResponseEntity<String> addDeckToFav(@PathVariable int deckId){
-		deckService.addToFav(deckId);
-		return ok("Added to fav");
+	@GetMapping("/like/{deckId}")
+	public ResponseEntity<String> addDeckToLiked(@PathVariable int deckId){
+		return ok(deckService.addDeckToLiked(deckId));
 	}
 	
 	@GetMapping("/search-decks")

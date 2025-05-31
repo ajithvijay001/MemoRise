@@ -12,9 +12,9 @@ public interface DecksService {
 
 	Decks editDeck(Decks deck);
 
-	String deleteDeck(String id);
+	Decks deleteDeck(int deckId);
 
-	String addToFav(int deckId);
+	String addDeckToLiked(int deckId);
 
 	List<Decks> searchDecks(String text);
 }

@@ -47,14 +47,14 @@ public class FlashCardController {
 		return ok(flashCardSerive.editFlashCard(flashCards));
 	}
 	
-	@DeleteMapping("/delete-card")
-	public ResponseEntity<String> deleteFlashCard(@PathVariable String id){
-		return ok(flashCardSerive.deleteCard(id));
+	@DeleteMapping("deck/{deckId}/delete-card/{cardId}")
+	public ResponseEntity<FlashCards> deleteFlashCard(@PathVariable int deckId, @PathVariable int cardId){
+		return ok(flashCardSerive.deleteCard(deckId, cardId));
 	}
 	
-	@PostMapping("/like")
-	public ResponseEntity<String> addCardToFav(@PathVariable int cardId){
-		return ok(flashCardSerive.addCardToFav(cardId));
+	@GetMapping("/deck/{id}/like/{cardId}")
+	public ResponseEntity<String> addCardToLiked(@PathVariable int cardId, @PathVariable int id){
+		return ok(flashCardSerive.addCardToLiked(id, cardId));
 	}
 	
 	@GetMapping("/search-cards")
