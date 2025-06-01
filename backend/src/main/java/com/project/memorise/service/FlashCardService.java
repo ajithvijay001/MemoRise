@@ -20,4 +20,6 @@ public interface FlashCardService {
 	String addCardToLiked(int deckId, int cardId);
 
 	List<FlashCards> searchCards(String text);
+
+	String toggleCardRead(int deckId, int cardId);
 }

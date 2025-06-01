@@ -43,6 +43,8 @@ public class FlashCards {
 	private List<String> meaning;
 	
 	private boolean liked=false;
+	
+	private boolean read = false;
 
 
 }

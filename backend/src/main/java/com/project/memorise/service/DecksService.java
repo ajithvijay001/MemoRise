@@ -17,4 +17,6 @@ public interface DecksService {
 	String addDeckToLiked(int deckId);
 
 	List<Decks> searchDecks(String text);
+
+	boolean updateDeckReadStatus(int deckId);
 }

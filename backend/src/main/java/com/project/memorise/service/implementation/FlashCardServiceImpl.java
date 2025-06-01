@@ -13,6 +13,7 @@ import com.project.memorise.model.FlashCards;
 import com.project.memorise.repository.DeckRepository;
 import com.project.memorise.repository.FlashCardRepository;
 import com.project.memorise.security.CustomUserDetails;
+import com.project.memorise.service.DecksService;
 import com.project.memorise.service.FlashCardService;
 import com.project.memorise.service.SequenceGeneratorService;
 
@@ -24,6 +25,9 @@ public class FlashCardServiceImpl implements FlashCardService {
 	
 	@Autowired
 	DeckRepository deckRepo;
+	
+	@Autowired
+	DecksService deckService;
 	
 	@Autowired
     private SequenceGeneratorService sequenceGeneratorService;
@@ -95,6 +99,26 @@ public class FlashCardServiceImpl implements FlashCardService {
 	@Override
 	public List<FlashCards> searchCards(String text) {
 		return flashCardRepo.searchCards(Pattern.quote(text.trim()), getCurrentUserId());
+	}
+
+	@Override
+	public String toggleCardRead(int deckId, int cardId) {
+		verifyDeckOwnership(deckId);
+		Optional<FlashCards> optionalCard = flashCardRepo.findByDeckIdAndCardId(deckId, cardId);
+		if(optionalCard.isPresent()) {
+			FlashCards card = optionalCard.get();
+			card.setRead(!card.isRead());
+			FlashCards savedCardId = flashCardRepo.save(card);
+			System.out.println("Saved card read status: " + savedCardId.isRead());
+			
+			if(savedCardId.getCardId() !=0) {
+				if(deckService.updateDeckReadStatus(deckId)) {
+					return "Card marked as read. You have completed the deck. Great job!";
+				}
+			}
+			return "Card marked as " + (card.isRead() ? "read. Great job learning it!" : "unread.");
+		}
+		return "Card not found!";
 	}
 
 }

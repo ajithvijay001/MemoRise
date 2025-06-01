@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.memorise.model.Decks;
 import com.project.memorise.repository.DeckRepository;
+import com.project.memorise.repository.FlashCardRepository;
 import com.project.memorise.repository.UserRepository;
 import com.project.memorise.security.CustomUserDetails;
 import com.project.memorise.service.DecksService;
@@ -24,6 +25,9 @@ public class DecksServiceImpl implements DecksService{
 	
 	@Autowired 
 	UserRepository userRepo;
+	
+	@Autowired
+	FlashCardRepository flashCardRepo;
 	
 	@Autowired
     private SequenceGeneratorService sequenceGeneratorService;
@@ -83,6 +87,21 @@ public class DecksServiceImpl implements DecksService{
 	@Override
 	public List<Decks> searchDecks(String text) {
 		return deckRepo.searchDecks(Pattern.quote(text.trim()), getCurrentUserId());
+	}
+
+	@Override
+	public boolean updateDeckReadStatus(int deckId) {
+		
+		boolean allRead = flashCardRepo.areAllFlashcardsLearnt(deckId);
+		
+		Decks deck= deckRepo.findByUserIdAndDeckId(getCurrentUserId(), deckId);
+		 if (deck != null) {
+			 deck.setRead(allRead);
+			 deckRepo.save(deck);
+		    } else {
+		        throw new RuntimeException("Deck not found for deckId or does not belong to the user" );
+		    }
+		 return allRead;
 	}
 
 }

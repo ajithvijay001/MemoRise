@@ -31,4 +31,6 @@ public class Decks {
 	
 	private boolean liked = false;
 	
+	private boolean read = false;
+	
 }

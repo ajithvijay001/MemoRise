@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.project.memorise.model.FlashCards;
 @Repository
-public interface FlashCardRepository extends MongoRepository<FlashCards, String> {
+public interface FlashCardRepository extends MongoRepository<FlashCards, String>, FlashCardsRepositoryCustom {
 
 	List<FlashCards> findByDeckId(int deckId);
 	
