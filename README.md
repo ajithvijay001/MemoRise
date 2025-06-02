@@ -35,7 +35,7 @@ This project is designed with clean, modular code and follows RESTful best pract
 
 ## 💻 Tech Stack
 
-- **Backend:** Java 17, Spring Boot 3
+- **Backend:** Java 21, Spring Boot 3
 - **Security:** Spring Security, JWT
 - **Database:** MongoDB (Atlas)
 - **Frontend:** Vue.js (planned), HTML, CSS
@@ -77,6 +77,6 @@ This project is designed with clean, modular code and follows RESTful best pract
 ### Steps to Run
 
 ```bash
-git clone https://github.com/your-username/memorise.git
+git clone https://github.com/ajithvijay001/MemoRise.git
 cd memorise
 mvn spring-boot:run
