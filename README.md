@@ -66,17 +66,3 @@ This project is designed with clean, modular code and follows RESTful best pract
 
 ---
 
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Java 17+
-- Maven
-- MongoDB (local or Atlas)
-
-### Steps to Run
-
-```bash
-git clone https://github.com/ajithvijay001/MemoRise.git
-cd memorise
-mvn spring-boot:run
